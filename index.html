@@ -1,0 +1,725 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Baby Shower · Mateo Adelio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            /* ── Palette ── */
+            --bg-start: #fdfaf3;
+            --text-main: #1b3826;
+            --text-sub: #2a5239;
+            --green-dk: #1b4332;
+            --green-md: #2d6a4f;
+            --gold-md: #d4a017;
+            --font-script: 'Great Vibes', cursive;
+            --font-formal: 'Playfair Display', serif;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: var(--font-formal);
+            color: var(--text-main);
+            touch-action: none;
+            background-color: var(--bg-start);
+        }
+
+        #bgMusic {
+            display: none;
+        }
+
+        /* ── Animación Bounce ── */
+        @keyframes bgBounce {
+            0% {
+                transform: scale(1.06) translateY(0) rotate(0deg);
+            }
+
+            100% {
+                transform: scale(1) translateY(-1.5%) rotate(0.5deg);
+            }
+        }
+
+        /* ── Petals ── */
+        #petalsContainer {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .petal {
+            position: absolute;
+            border-radius: 50% 0 50% 0;
+            pointer-events: none;
+            will-change: transform, top, opacity;
+            box-shadow: 0 0 8px rgba(74, 103, 65, 0.3);
+        }
+
+        /* ── LANDING ────────────────────────────────── */
+        #landing {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+            transition: opacity 0.9s ease;
+            background-color: var(--bg-start);
+            overflow: hidden;
+        }
+
+        #landing-bg {
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            right: -10%;
+            bottom: -10%;
+            background-image: url('FONDO_LANDING.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: -2;
+            animation: bgBounce 8s ease-in-out infinite alternate;
+        }
+
+        #landing::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(253,250,243,0.6) 0%, rgba(234,221,188,0.8) 100%);
+            z-index: -1;
+        }
+
+        #landing.hiding {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .landing-eyebrow {
+            font-style: italic;
+            font-size: clamp(0.68rem, 2.8vw, 0.82rem);
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--text-sub);
+            opacity: 0.9;
+            margin-bottom: 1.8rem;
+            text-align: center;
+            animation: fuA 1s ease 0.3s both;
+            position: relative;
+        }
+
+        .envelope-wrap {
+            position: relative;
+            width: clamp(200px, 70vw, 290px);
+            margin: 0 auto;
+            cursor: pointer;
+            animation: fuA 1s ease 0.6s both, envFloat 4.5s ease-in-out 1.6s infinite;
+            -webkit-tap-highlight-color: transparent;
+            filter: drop-shadow(0 8px 25px rgba(27,67,50,0.3));
+        }
+
+            .envelope-wrap.opening {
+                animation: envOpen 0.9s cubic-bezier(0.36,0.07,0.19,0.97) forwards !important;
+            }
+
+        @keyframes envFloat {
+            0%,100% {
+                transform: translateY(0) rotate(-1.2deg);
+            }
+
+            50% {
+                transform: translateY(-14px) rotate(1.2deg);
+            }
+        }
+
+        @keyframes envOpen {
+            0% {
+                transform: scale(1) rotate(0deg);
+            }
+
+            100% {
+                transform: scale(1.4) rotate(0deg);
+                opacity: 0;
+                filter: drop-shadow(0 0 80px rgba(255,255,200,0.8));
+            }
+        }
+
+        .tap-hint {
+            font-family: var(--font-script);
+            font-size: clamp(2.2rem, 10vw, 3.4rem);
+            color: var(--text-main);
+            text-align: center;
+            margin-top: 1.4rem;
+            animation: fuA 1s ease 1s both, tapBob 2.5s ease-in-out 2s infinite;
+        }
+
+        .tap-sub {
+            font-size: clamp(0.62rem, 2.4vw, 0.74rem);
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--text-sub);
+            opacity: 0.8;
+            text-align: center;
+            margin-top: 0.5rem;
+            animation: fuA 1s ease 1.3s both;
+        }
+
+        @keyframes tapBob {
+            0%,100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.04);
+            }
+        }
+
+        /* ── MAIN APP ───────────────────────────────── */
+        #app {
+            position: fixed;
+            inset: 0;
+            z-index: 10;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.9s ease;
+        }
+
+            #app.visible {
+                opacity: 1;
+            }
+
+        #progressBar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 4px;
+            z-index: 30;
+            background: linear-gradient(90deg, var(--green-md), var(--gold-md));
+            width: 0%;
+            transition: width linear;
+        }
+
+        .slider {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            width: 400vw;
+            height: 100%;
+            transition: transform 0.85s cubic-bezier(0.77,0,0.175,1);
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100%;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3.5rem 1.6rem 5rem;
+            position: relative;
+            overflow: hidden;
+            background-color: var(--bg-start);
+        }
+
+        .slide-bg {
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            right: -10%;
+            bottom: -10%;
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+            animation: bgBounce 10s ease-in-out infinite alternate;
+        }
+
+        #slide-0 .slide-bg {
+            background-image: url('FONDO_1.png');
+        }
+
+        #slide-1 .slide-bg {
+            background-image: url('FONDO_2.png');
+        }
+
+        #slide-2 .slide-bg {
+            background-image: url('FONDO_3.jpg');
+        }
+
+        #slide-3 .slide-bg {
+            background-image: url('FONDO_4.jpg');
+        }
+
+        /* ── Degradado blando para legibilidad ── */
+        .text-backdrop {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 500px;
+            padding: 2.5rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.6) 50%, transparent 85%);
+            border-radius: 50%;
+        }
+
+        .slide-border-1 {
+            inset: 14px;
+            border: 1px solid rgba(45,106,79,0.2);
+            border-radius: 4px;
+            position: absolute;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .slide-border-2 {
+            inset: 20px;
+            border: 1px solid rgba(45,106,79,0.1);
+            border-radius: 2px;
+            position: absolute;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        @keyframes fuA {
+            from {
+                opacity: 0;
+                transform: translateY(26px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .anim {
+            opacity: 0;
+        }
+
+        .slide.active .anim {
+            animation: fuA 0.8s ease forwards;
+        }
+
+        .slide.active .a1 {
+            animation-delay: 0.1s;
+        }
+
+        .slide.active .a2 {
+            animation-delay: 0.3s;
+        }
+
+        .slide.active .a3 {
+            animation-delay: 0.5s;
+        }
+
+        .slide.active .a4 {
+            animation-delay: 0.7s;
+        }
+
+        .eyebrow {
+            font-size: clamp(1rem, 5vw, 1.8rem);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-sub);
+            text-align: center;
+        }
+
+        .script-md {
+            font-family: var(--font-script);
+            font-size: clamp(1.6rem, 7vw, 2.4rem);
+            color: var(--text-main);
+            text-align: center;
+        }
+
+        .script-lg {
+            font-family: var(--font-script);
+            color: var(--text-main);
+            text-align: center;
+        }
+
+        .formal-name {
+            font-family: var(--font-formal);
+            font-weight: 700;
+            font-size: clamp(2.5rem, 11.5vw, 4.2rem);
+            text-align: center;
+            color: var(--green-dk);
+        }
+
+        .div-g, .div-go {
+            height: 1.5px;
+            margin: 0.2rem auto;
+        }
+
+        .div-g {
+            width: 90px;
+            background: linear-gradient(90deg, transparent, var(--green-md), transparent);
+        }
+
+        .div-go {
+            width: 110px;
+            background: linear-gradient(90deg, transparent, var(--gold-md), transparent);
+        }
+
+        .event-details {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .d-icon {
+            width: 24px;
+            height: 24px;
+            stroke: var(--green-md);
+            fill: none;
+            stroke-width: 1.8;
+        }
+
+        .d-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            color: var(--text-sub);
+            opacity: 0.9;
+        }
+
+        .d-value {
+            font-size: clamp(0.7rem, 2.8vw, 0.85rem);
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .d-sep {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, transparent, var(--green-md), transparent);
+        }
+
+        .location-box {
+            background: rgba(255,255,255,0.8);
+            border: 1px solid rgba(45,106,79,0.2);
+            border-radius: 14px;
+            padding: 0.8rem;
+            text-align: center;
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .loc-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            color: var(--text-sub);
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .loc-address {
+            font-style: italic;
+            font-size: clamp(0.8rem, 3.4vw, 0.9rem);
+            line-height: 1.5;
+        }
+
+        .rsvp-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            margin-top: 0.8rem;
+        }
+
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 30;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+            .nav-arrow svg {
+                width: 16px;
+                stroke: var(--green-dk);
+                fill: none;
+                stroke-width: 2.5;
+            }
+
+        .nav-prev {
+            left: 0.5rem;
+        }
+
+        .nav-next {
+            right: 0.5rem;
+        }
+
+        .nav-arrow.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .dots {
+            position: absolute;
+            bottom: 1.2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 30;
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(45,106,79,0.2);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+            .dot.active {
+                background: var(--green-md);
+                transform: scale(1.4);
+            }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" autoplay loop>
+        <source src="MUSHICA.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="petalsContainer"></div>
+
+    <div id="landing">
+        <div id="landing-bg"></div>
+        <p class="landing-eyebrow">una invitación muy especial</p>
+        <div class="envelope-wrap" id="envWrap" onclick="openEnvelope()">
+            <svg viewBox="0 0 290 205" width="100%" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="eBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d4b895" /><stop offset="100%" stop-color="#b5966d" /></linearGradient>
+                    <linearGradient id="eFlap" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c9a980" /><stop offset="100%" stop-color="#a8875a" /></linearGradient>
+                    <linearGradient id="eSeal" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1b4332" /><stop offset="100%" stop-color="#1b4332" /></linearGradient>
+                    <filter id="eShadow"><feDropShadow dx="0" dy="5" stdDeviation="10" flood-color="rgba(0,0,0,0.15)" /></filter>
+                </defs>
+                <rect x="10" y="58" width="270" height="138" rx="7" fill="url(#eBody)" stroke="#8c6d46" stroke-width="1.2" filter="url(#eShadow)" />
+                <path d="M10,196 L145,122 L280,196" fill="none" stroke="#8c6d46" stroke-width="0.8" opacity="0.6" />
+                <path d="M10,58 L145,135 L280,58 Z" fill="url(#eFlap)" stroke="#8c6d46" stroke-width="1.2" />
+                <g>
+                    <circle cx="145" cy="135" r="24" fill="url(#eSeal)" />
+                    <circle cx="145" cy="135" r="19" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1" />
+                    <path d="M145,125 Q156,129 156,135 Q156,143 145,146 Q134,143 134,135 Q134,129 145,125 Z" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.5)" stroke-width="0.8" />
+                </g>
+            </svg>
+        </div>
+        <p class="tap-hint">¡Toca el sobre!</p>
+        <p class="tap-sub">para abrir tu invitación</p>
+    </div>
+
+    <div id="app">
+        <div id="progressBar"></div>
+        <div class="slider" id="slider">
+
+            <div class="slide active" id="slide-0">
+                <div class="slide-bg"></div><div class="slide-border-1"></div><div class="slide-border-2"></div>
+                <div class="text-backdrop">
+                    <h2 class="script-lg anim a1" style="font-size:clamp(4.5rem, 18vw, 6.5rem); color: var(--green-md);">¡Es un niño!</h2>
+                </div>
+            </div>
+
+            <div class="slide" id="slide-1">
+                <div class="slide-bg"></div><div class="slide-border-1"></div><div class="slide-border-2"></div>
+                <div class="text-backdrop">
+                    <div class="div-go anim a1"></div>
+                    <p class="script-md anim a2" style="padding: 1rem 0;">Con amor e ilusión<br>esperamos su llegada</p>
+                    <div class="div-go anim a3"></div>
+                </div>
+            </div>
+
+            <div class="slide" id="slide-2">
+                <div class="slide-bg"></div><div class="slide-border-1"></div><div class="slide-border-2"></div>
+                <div class="text-backdrop">
+                    <p class="eyebrow anim a1">Baby Shower</p>
+                    <div class="div-g anim a1"></div>
+                    <h1 class="formal-name anim a2">Mateo Adelio</h1>
+                    <div class="div-go anim a3"></div>
+                    <div class="event-details anim a4">
+                        <div class="detail-item">
+                            <span class="d-label">Fecha</span><span class="d-value">Jueves<br>22 de Mayo</span>
+                        </div>
+                        <div class="d-sep"></div>
+                        <div class="detail-item">
+                            <span class="d-label">Hora</span><span class="d-value">6:00 p.m.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" id="slide-3">
+                <div class="slide-bg"></div><div class="slide-border-1"></div><div class="slide-border-2"></div>
+                <div class="text-backdrop">
+                    <p class="eyebrow anim a1">Nos vemos aquí</p>
+                    <div class="div-g anim a1"></div>
+                    <div class="location-box anim a2">
+                        <p class="loc-label">Dirección</p>
+                        <p class="loc-address">Av. Chelio Luna Pizarro<br>casi esquina Jatatal</p>
+                    </div>
+                    <h2 class="script-lg anim a4" style="font-size: clamp(2rem, 8vw, 3rem); margin-top:0.5rem;">Te esperamos</h2>
+                    <a class="rsvp-btn anim a4" href="https://wa.me/59175769551?text=Con%20gusto%20iremos" target="_blank">Confirmar Asistencia</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-arrow nav-prev hide" id="navPrev" onclick="goTo(current-1)"><svg viewBox="0 0 18 18"><polyline points="12,3 6,9 12,15" /></svg></div>
+        <div class="nav-arrow nav-next" id="navNext" onclick="goTo(current+1)"><svg viewBox="0 0 18 18"><polyline points="6,3 12,9 6,15" /></svg></div>
+
+        <div class="dots">
+            <div class="dot active" onclick="goTo(0)"></div>
+            <div class="dot" onclick="goTo(1)"></div>
+            <div class="dot" onclick="goTo(2)"></div>
+            <div class="dot" onclick="goTo(3)"></div>
+        </div>
+    </div>
+
+    <script>
+        /* ── INICIAR MÚSICA AL CARGAR ── */
+        document.addEventListener("DOMContentLoaded", () => {
+            const bgMusic = document.getElementById('bgMusic');
+            if (bgMusic) {
+                bgMusic.volume = 0.3;
+
+                // Intenta reproducir de inmediato
+                bgMusic.play().catch(() => {
+                    // Si el navegador lo bloquea (por políticas de autoplay),
+                    // espera el primer toque en pantalla para reproducirlo.
+                    const startAudio = () => {
+                        bgMusic.play();
+                        document.removeEventListener('click', startAudio);
+                        document.removeEventListener('touchstart', startAudio);
+                    };
+                    document.addEventListener('click', startAudio);
+                    document.addEventListener('touchstart', startAudio);
+                });
+            }
+        });
+
+        /* ── PETALS (Colores de la Hoja) ── */
+        (function () {
+            const container = document.getElementById('petalsContainer');
+            const palette = [
+                'rgba(74, 103, 65, 0.8)',
+                'rgba(134, 166, 122, 0.8)',
+                'rgba(164, 180, 148, 0.7)',
+                'rgba(194, 197, 151, 0.6)'
+            ];
+            for (let i = 0; i < 30; i++) {
+                const p = document.createElement('div');
+                const sz = (8 + Math.random() * 12).toFixed(2), lft = (Math.random() * 100).toFixed(2), dur = (6 + Math.random() * 8).toFixed(2);
+                const del = -(Math.random() * 15).toFixed(2), col = palette[i % palette.length], rot = (Math.random() * 360).toFixed(1);
+                const dx1 = ((Math.random() - 0.5) * 100).toFixed(1), dx2 = ((Math.random() - 0.5) * 100).toFixed(1), dx3 = ((Math.random() - 0.5) * 80).toFixed(1);
+                const kf = `pk${i}`;
+                const st = document.createElement('style');
+                st.textContent = `@keyframes ${kf} { 0% { top:-9%; opacity:0; transform:rotate(${rot}deg) translateX(0px); } 10% { opacity:1; } 40% { transform:rotate(${+rot + 115}deg) translateX(${dx1}px); } 70% { transform:rotate(${+rot + 240}deg) translateX(${dx2}px); } 90% { opacity:.7; } 100% { top:110%; opacity:0; transform:rotate(${+rot + 400}deg) translateX(${dx3}px); } }`;
+                document.head.appendChild(st);
+                p.className = 'petal';
+                p.style.cssText = `left:${lft}%; width:${sz}px; height:${(+sz * 1.5).toFixed(2)}px; background:${col}; animation:${kf} ${dur}s ${del}s linear infinite;`;
+                container.appendChild(p);
+            }
+        })();
+
+        /* ── ABRIR SOBRE ── */
+        function openEnvelope() {
+            const wrap = document.getElementById('envWrap'), landing = document.getElementById('landing'), app = document.getElementById('app');
+
+            wrap.classList.add('opening');
+            setTimeout(() => landing.classList.add('hiding'), 720);
+            setTimeout(() => {
+                landing.style.display = 'none'; app.style.display = 'block';
+                requestAnimationFrame(() => { app.classList.add('visible'); resetTimer(); });
+            }, 1500);
+        }
+
+        /* ── SLIDER (Tiempos dinámicos) ── */
+        const TOTAL = 4;
+        // Array de tiempos: 2s, 3s, 5s, 5s
+        const DURATIONS = [2000, 3000, 5000, 5000];
+
+        let current = 0, autoTimer = null, startX = 0, dragging = false;
+        const sliderEl = document.getElementById('slider'), dotsEl = document.querySelectorAll('.dot'), slidesEl = document.querySelectorAll('.slide'), bar = document.getElementById('progressBar');
+        const btnPrev = document.getElementById('navPrev'), btnNext = document.getElementById('navNext');
+
+        function goTo(idx) {
+            if (idx < 0 || idx >= TOTAL) return;
+            slidesEl[current].classList.remove('active');
+            current = idx;
+            sliderEl.style.transform = `translateX(-${current * 100}vw)`;
+            slidesEl[current].classList.add('active');
+            dotsEl.forEach((d, i) => d.classList.toggle('active', i === current));
+            btnPrev.classList.toggle('hide', current === 0);
+            btnNext.classList.toggle('hide', current === TOTAL - 1);
+            resetTimer();
+        }
+
+        function resetTimer() {
+            clearTimeout(autoTimer); // Usamos clearTimeout para tiempos variables
+            bar.style.transition = 'none'; bar.style.width = '0%';
+
+            if (current === TOTAL - 1) {
+                bar.style.width = '100%';
+                return;
+            }
+
+            const currentDuration = DURATIONS[current];
+
+            requestAnimationFrame(() => {
+                bar.style.transition = `width ${currentDuration}ms linear`;
+                bar.style.width = '100%';
+            });
+
+            autoTimer = setTimeout(() => goTo(current + 1), currentDuration);
+        }
+
+        sliderEl.addEventListener('touchstart', e => { startX = e.touches[0].clientX; dragging = true; }, { passive: true });
+        sliderEl.addEventListener('touchend', e => { if (!dragging) return; const dx = e.changedTouches[0].clientX - startX; if (Math.abs(dx) > 48) dx < 0 ? goTo(current + 1) : goTo(current - 1); dragging = false; }, { passive: true });
+        sliderEl.addEventListener('mousedown', e => { startX = e.clientX; dragging = true; });
+        window.addEventListener('mouseup', e => { if (!dragging) return; const dx = e.clientX - startX; if (Math.abs(dx) > 60) dx < 0 ? goTo(current + 1) : goTo(current - 1); dragging = false; });
+    </script>
+</body>
+</html>
