@@ -232,7 +232,7 @@
                 z-index: 2;
             }
 
-       
+
         .slide-bg {
             position: absolute;
             top: -10%;
@@ -514,6 +514,9 @@
             text-align: center;
             width: 100%;
             max-width: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .loc-label {
@@ -534,6 +537,37 @@
             color: var(--green-dk);
             line-height: 1.5;
         }
+
+        /* ── Botón de Google Maps ── */
+        .maps-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            background: rgba(45, 106, 79, 0.08);
+            color: var(--green-dk);
+            border: 1px solid var(--green-md);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-top: 0.8rem;
+            transition: all 0.3s ease;
+            font-family: var(--font-formal);
+        }
+
+            .maps-btn:hover {
+                background: rgba(45, 106, 79, 0.15);
+                transform: scale(1.02);
+            }
+
+            .maps-btn svg {
+                width: 16px;
+                height: 16px;
+                stroke: var(--green-dk);
+                fill: none;
+            }
 
         .rsvp-btn {
             display: inline-flex;
@@ -614,7 +648,7 @@
 </head>
 <body>
 
-    <audio id="bgMusic" autoplay loop>
+    <audio id="bgMusic" loop>
         <source src="MUSHICA.mp3" type="audio/mpeg">
     </audio>
 
@@ -626,17 +660,14 @@
         <div class="envelope-wrap" id="envWrap" onclick="openEnvelope()">
             <svg viewBox="0 0 290 205" width="100%" xmlns="http://www.w3.org/2000/svg">
                 <defs>
-                    
                     <linearGradient id="eBody" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stop-color="#F9F6EE" />
                         <stop offset="100%" stop-color="#EAE0C8" />
                     </linearGradient>
-                   
                     <linearGradient id="eFlap" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stop-color="#EFE5D5" />
                         <stop offset="100%" stop-color="#DDCBAb" />
                     </linearGradient>
-                  
                     <linearGradient id="eSeal" x1="0" y1="0" x2="1" y2="1">
                         <stop offset="0%" stop-color="#1b4332" />
                         <stop offset="100%" stop-color="#1b4332" />
@@ -648,7 +679,6 @@
                 <path d="M10,196 L145,122 L280,196" fill="none" stroke="#b8a38b" stroke-width="0.8" opacity="0.6" />
                 <path d="M10,58 L145,135 L280,58 Z" fill="url(#eFlap)" stroke="#b8a38b" stroke-width="1.2" />
 
-            
                 <g>
                     <circle cx="145" cy="135" r="24" fill="url(#eSeal)" />
                     <circle cx="145" cy="135" r="19" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1" />
@@ -668,7 +698,6 @@
                 <div class="slide-bg"></div><div class="slide-border-1"></div><div class="slide-border-2"></div>
                 <div class="text-backdrop">
                     <div class="anim a1">
-                        
                         <h2 class="script-lg shine-text" style="font-size:clamp(4.5rem, 18vw, 6.5rem);">¡Es un niño!</h2>
                     </div>
                 </div>
@@ -678,7 +707,7 @@
                 <div class="slide-bg"></div><div class="slide-border-1"></div><div class="slide-border-2"></div>
                 <div class="text-backdrop">
                     <div class="div-go anim a1"></div>
-                    <p class="script-md anim a2" style="padding: 1rem 0;">Con amor e ilusión<br>esperamos su llegada</p>
+                    <p class="script-md anim a2" style="padding: 1rem 0;">Salmo 139:13-14: <br>"Tú creaste mis entrañas; me formaste en el vientre de mi madre.  <br>¡Te alabo porque soy una creación admirable!"</p>
                     <div class="div-go anim a3"></div>
                 </div>
             </div>
@@ -692,12 +721,12 @@
                     <div class="div-go anim a3"></div>
                     <div class="event-details anim a4">
                         <div class="detail-item">
-                            <span class="d-label">Fecha</span>                      
+                            <span class="d-label">Fecha</span>
                             <span class="d-value type-reveal t-delay-1">Viernes<br>22 de Mayo</span>
                         </div>
                         <div class="d-sep"></div>
                         <div class="detail-item">
-                            <span class="d-label">Hora</span>                       
+                            <span class="d-label">Hora</span>
                             <span class="d-value type-reveal t-delay-1">6:00 p.m.</span>
                         </div>
                     </div>
@@ -709,11 +738,21 @@
                 <div class="text-backdrop">
                     <p class="eyebrow anim a1">Nos vemos aquí</p>
                     <div class="div-g anim a1"></div>
+
                     <div class="location-box anim a2">
                         <p class="loc-label">Dirección</p>
-                        
                         <p class="loc-address type-reveal t-delay-2">Av. Chelio Luna Pizarro<br>casi esquina Jatatal</p>
+
+                        <!-- BOTÓN DE GOOGLE MAPS AÑADIDO AQUÍ -->
+                        <a class="maps-btn" href="https://www.google.com/maps?q=-11.0144546,-68.7526025&z=17&hl=es" target="_blank">
+                            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                            Ver en Maps
+                        </a>
                     </div>
+
                     <h2 class="script-lg anim a4" style="font-size: clamp(2rem, 8vw, 3rem); margin-top:0.5rem;">Te esperamos</h2>
                     <a class="rsvp-btn anim a4" href="https://wa.me/59169688476?text=Hola!%20Con%20emoción%20recibimos%20la%20invitación!%20y%20con%20gusto%20les%20confirmamos%20nuestra%20asistencia" target="_blank">Confirmar Asistencia</a>
                 </div>
@@ -732,25 +771,16 @@
     </div>
 
     <script>
-        /* ── INICIAR MÚSICA AL CARGAR ── */
+
+        // 1. Al cargar la página, solo ajustamos el volumen del audio.
         document.addEventListener("DOMContentLoaded", () => {
             const bgMusic = document.getElementById('bgMusic');
             if (bgMusic) {
                 bgMusic.volume = 0.3;
-
-                bgMusic.play().catch(() => {
-                    const startAudio = () => {
-                        bgMusic.play();
-                        document.removeEventListener('click', startAudio);
-                        document.removeEventListener('touchstart', startAudio);
-                    };
-                    document.addEventListener('click', startAudio);
-                    document.addEventListener('touchstart', startAudio);
-                });
             }
         });
 
-        /* ── PETALS (Colores de la Hoja) ── */
+        // 2. Animación de los pétalos
         (function () {
             const container = document.getElementById('petalsContainer');
             const palette = [
@@ -774,8 +804,14 @@
             }
         })();
 
-        /* ── ABRIR SOBRE ── */
+        /* ── ABRIR SOBRE Y REPRODUCIR AUDIO ── */
         function openEnvelope() {
+            // Se le da "Play" a la música en el momento exacto del clic
+            const bgMusic = document.getElementById('bgMusic');
+            if (bgMusic) {
+                bgMusic.play().catch(error => console.log("Error de audio:", error));
+            }
+
             const wrap = document.getElementById('envWrap'), landing = document.getElementById('landing'), app = document.getElementById('app');
 
             wrap.classList.add('opening');
@@ -786,7 +822,7 @@
             }, 1500);
         }
 
-       
+        // Lógica de Slider y transiciones
         const TOTAL = 4;
         const DURATIONS = [5000, 6000, 10000, 10000];
 
