@@ -15,7 +15,6 @@
         }
 
         :root {
-         
             --bg-start: #fdfaf3;
             --text-main: #1b3826;
             --text-sub: #2a5239;
@@ -39,6 +38,51 @@
         #bgMusic {
             display: none;
         }
+
+        /* ── Botón de Música ── */
+        .music-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100000; /* Asegura que esté por encima de los pétalos */
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(45,106,79,0.3);
+            color: var(--green-dk);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.8);
+        }
+
+            .music-btn.visible {
+                opacity: 1;
+                pointer-events: auto;
+                transform: scale(1);
+            }
+
+            .music-btn:hover {
+                background: rgba(255, 255, 255, 0.9);
+                transform: scale(1.05);
+            }
+
+            .music-btn svg {
+                width: 20px;
+                height: 20px;
+                stroke: currentColor;
+                fill: none;
+                stroke-width: 2;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+            }
 
         /* ── Petals ── */
         #petalsContainer {
@@ -388,7 +432,6 @@
             text-align: center;
         }
 
-
         .shine-text {
             display: inline-block;
             background: linear-gradient(90deg, var(--green-md) 0%, var(--green-md) 45%, #e6be5c 50%, var(--green-md) 55%, var(--green-md) 100%);
@@ -413,7 +456,6 @@
             }
         }
 
-
         .type-reveal {
             clip-path: inset(0 100% 0 0);
             display: inline-block;
@@ -422,7 +464,6 @@
         .slide.active .type-reveal {
             animation: typeClip 1.8s steps(35, end) forwards;
         }
-
 
         .slide.active .t-delay-1 {
             animation-delay: 1.2s;
@@ -651,6 +692,19 @@
         <source src="MUSHICA.mp3" type="audio/mpeg">
     </audio>
 
+    <!-- Botón de Control de Música (Oculto al inicio) -->
+    <button id="musicToggleBtn" class="music-btn" onclick="toggleMusic()">
+        <!-- Icono de Pausa (Visible cuando suena) -->
+        <svg id="icon-pause" viewBox="0 0 24 24">
+            <rect x="6" y="4" width="4" height="16"></rect>
+            <rect x="14" y="4" width="4" height="16"></rect>
+        </svg>
+        <!-- Icono de Play (Oculto cuando suena) -->
+        <svg id="icon-play" viewBox="0 0 24 24" style="display: none;">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+    </button>
+
     <div id="petalsContainer"></div>
 
     <div id="landing">
@@ -742,7 +796,7 @@
                         <p class="loc-label">Dirección</p>
                         <p class="loc-address type-reveal t-delay-2">Av. Chelio Luna Pizarro<br>casi esquina Jatatal</p>
 
-                        
+
                         <a class="maps-btn" href="https://www.google.com/maps?q=-11.0144546,-68.7526025&z=17&hl=es" target="_blank">
                             <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
@@ -778,7 +832,7 @@
             }
         });
 
-      
+
         (function () {
             const container = document.getElementById('petalsContainer');
             const palette = [
@@ -802,12 +856,16 @@
             }
         })();
 
-       
-        function openEnvelope() {
 
+        function openEnvelope() {
             const bgMusic = document.getElementById('bgMusic');
+            const musicBtn = document.getElementById('musicToggleBtn');
+
             if (bgMusic) {
-                bgMusic.play().catch(error => console.log("Error de audio:", error));
+                bgMusic.play().then(() => {
+                    // Muestra el botón flotante si la música se reproduce correctamente
+                    musicBtn.classList.add('visible');
+                }).catch(error => console.log("Error de audio:", error));
             }
 
             const wrap = document.getElementById('envWrap'), landing = document.getElementById('landing'), app = document.getElementById('app');
@@ -820,9 +878,25 @@
             }, 1500);
         }
 
-     
+        // Función para pausar/reproducir la música
+        function toggleMusic() {
+            const bgMusic = document.getElementById('bgMusic');
+            const iconPause = document.getElementById('icon-pause');
+            const iconPlay = document.getElementById('icon-play');
+
+            if (bgMusic.paused) {
+                bgMusic.play();
+                iconPause.style.display = 'block';
+                iconPlay.style.display = 'none';
+            } else {
+                bgMusic.pause();
+                iconPause.style.display = 'none';
+                iconPlay.style.display = 'block';
+            }
+        }
+
         const TOTAL = 4;
-        const DURATIONS = [4000, 6000, 7500, 10000];
+        const DURATIONS = [4000, 4000, 6000, 7000];
 
         let current = 0, autoTimer = null, startX = 0, dragging = false;
         const sliderEl = document.getElementById('slider'), dotsEl = document.querySelectorAll('.dot'), slidesEl = document.querySelectorAll('.slide'), bar = document.getElementById('progressBar');
