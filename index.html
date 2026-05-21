@@ -177,7 +177,6 @@
             }
         }
 
-        /* ── MAIN APP ───────────────────────────────── */
         #app {
             position: fixed;
             inset: 0;
@@ -202,7 +201,6 @@
             transition: width linear;
         }
 
-        /* ── Transición FADE (Absolute) ── */
         .slider {
             position: absolute;
             inset: 0;
@@ -234,7 +232,7 @@
                 z-index: 2;
             }
 
-        /* ── Bounce en las imágenes ── */
+       
         .slide-bg {
             position: absolute;
             top: -10%;
@@ -322,7 +320,7 @@
             z-index: 2;
         }
 
-        /* ── Bounce en la aparición de los textos ── */
+
         @keyframes fuA {
             0% {
                 opacity: 0;
@@ -390,7 +388,7 @@
             text-align: center;
         }
 
-        /* ── MODIFICADO: Brillo Continuo (Sin Typeo) ── */
+
         .shine-text {
             display: inline-block;
             background: linear-gradient(90deg, var(--green-md) 0%, var(--green-md) 45%, #e6be5c 50%, var(--green-md) 55%, var(--green-md) 100%);
@@ -398,7 +396,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            color: transparent; /* Fallback */
+            color: transparent;
         }
 
         .slide.active .shine-text {
@@ -415,17 +413,17 @@
             }
         }
 
-        /* ── MODIFICADO: Animación Typeo para Fecha, Hora y Dirección ── */
+
         .type-reveal {
-            clip-path: inset(0 100% 0 0); /* Mantiene el texto oculto inicialmente */
-            display: inline-block; /* Ayuda a que el clip-path calcule el ancho correctamente */
+            clip-path: inset(0 100% 0 0);
+            display: inline-block;
         }
 
         .slide.active .type-reveal {
             animation: typeClip 1.8s steps(35, end) forwards;
         }
 
-        /* Retrasos para que el tipeo inicie después del rebote del contenedor */
+
         .slide.active .t-delay-1 {
             animation-delay: 1.2s;
         }
@@ -628,14 +626,29 @@
         <div class="envelope-wrap" id="envWrap" onclick="openEnvelope()">
             <svg viewBox="0 0 290 205" width="100%" xmlns="http://www.w3.org/2000/svg">
                 <defs>
-                    <linearGradient id="eBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d4b895" /><stop offset="100%" stop-color="#b5966d" /></linearGradient>
-                    <linearGradient id="eFlap" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c9a980" /><stop offset="100%" stop-color="#a8875a" /></linearGradient>
-                    <linearGradient id="eSeal" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1b4332" /><stop offset="100%" stop-color="#1b4332" /></linearGradient>
+                    
+                    <linearGradient id="eBody" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#F9F6EE" />
+                        <stop offset="100%" stop-color="#EAE0C8" />
+                    </linearGradient>
+                   
+                    <linearGradient id="eFlap" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#EFE5D5" />
+                        <stop offset="100%" stop-color="#DDCBAb" />
+                    </linearGradient>
+                  
+                    <linearGradient id="eSeal" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#1b4332" />
+                        <stop offset="100%" stop-color="#1b4332" />
+                    </linearGradient>
                     <filter id="eShadow"><feDropShadow dx="0" dy="5" stdDeviation="10" flood-color="rgba(0,0,0,0.15)" /></filter>
                 </defs>
-                <rect x="10" y="58" width="270" height="138" rx="7" fill="url(#eBody)" stroke="#8c6d46" stroke-width="1.2" filter="url(#eShadow)" />
-                <path d="M10,196 L145,122 L280,196" fill="none" stroke="#8c6d46" stroke-width="0.8" opacity="0.6" />
-                <path d="M10,58 L145,135 L280,58 Z" fill="url(#eFlap)" stroke="#8c6d46" stroke-width="1.2" />
+
+                <rect x="10" y="58" width="270" height="138" rx="7" fill="url(#eBody)" stroke="#b8a38b" stroke-width="1.2" filter="url(#eShadow)" />
+                <path d="M10,196 L145,122 L280,196" fill="none" stroke="#b8a38b" stroke-width="0.8" opacity="0.6" />
+                <path d="M10,58 L145,135 L280,58 Z" fill="url(#eFlap)" stroke="#b8a38b" stroke-width="1.2" />
+
+            
                 <g>
                     <circle cx="145" cy="135" r="24" fill="url(#eSeal)" />
                     <circle cx="145" cy="135" r="19" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1" />
@@ -655,7 +668,7 @@
                 <div class="slide-bg"></div><div class="slide-border-1"></div><div class="slide-border-2"></div>
                 <div class="text-backdrop">
                     <div class="anim a1">
-                        <!-- Modificado: Solo tiene la clase shine-text para el reflejo limpio -->
+                        
                         <h2 class="script-lg shine-text" style="font-size:clamp(4.5rem, 18vw, 6.5rem);">¡Es un niño!</h2>
                     </div>
                 </div>
@@ -679,14 +692,12 @@
                     <div class="div-go anim a3"></div>
                     <div class="event-details anim a4">
                         <div class="detail-item">
-                            <span class="d-label">Fecha</span>
-                            <!-- Modificado: Typeo en Fecha -->
-                            <span class="d-value type-reveal t-delay-1">Jueves<br>22 de Mayo</span>
+                            <span class="d-label">Fecha</span>                      
+                            <span class="d-value type-reveal t-delay-1">Viernes<br>22 de Mayo</span>
                         </div>
                         <div class="d-sep"></div>
                         <div class="detail-item">
-                            <span class="d-label">Hora</span>
-                            <!-- Modificado: Typeo en Hora -->
+                            <span class="d-label">Hora</span>                       
                             <span class="d-value type-reveal t-delay-1">6:00 p.m.</span>
                         </div>
                     </div>
@@ -700,7 +711,7 @@
                     <div class="div-g anim a1"></div>
                     <div class="location-box anim a2">
                         <p class="loc-label">Dirección</p>
-                        <!-- Modificado: Typeo en Dirección -->
+                        
                         <p class="loc-address type-reveal t-delay-2">Av. Chelio Luna Pizarro<br>casi esquina Jatatal</p>
                     </div>
                     <h2 class="script-lg anim a4" style="font-size: clamp(2rem, 8vw, 3rem); margin-top:0.5rem;">Te esperamos</h2>
