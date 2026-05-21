@@ -40,17 +40,6 @@
             display: none;
         }
 
-        /* ── Animación Bounce ── */
-        @keyframes bgBounce {
-            0% {
-                transform: scale(1.06) translateY(0) rotate(0deg);
-            }
-
-            100% {
-                transform: scale(1) translateY(-1.5%) rotate(0.5deg);
-            }
-        }
-
         /* ── Petals ── */
         #petalsContainer {
             position: fixed;
@@ -93,7 +82,7 @@
             background-size: cover;
             background-position: center;
             z-index: -2;
-            animation: bgBounce 8s ease-in-out infinite alternate;
+            animation: bgFloat 8s ease-in-out infinite alternate;
         }
 
         #landing::before {
@@ -213,29 +202,39 @@
             transition: width linear;
         }
 
+        /* ── Transición FADE (Absolute) ── */
         .slider {
             position: absolute;
             inset: 0;
-            display: flex;
-            width: 400vw;
+            width: 100%;
             height: 100%;
-            transition: transform 0.85s cubic-bezier(0.77,0,0.175,1);
         }
 
         .slide {
+            position: absolute;
+            inset: 0;
             width: 100vw;
             height: 100%;
-            flex-shrink: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 3.5rem 1.6rem 5rem;
-            position: relative;
             overflow: hidden;
             background-color: var(--bg-start);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1.2s ease-in-out, visibility 1.2s ease-in-out;
+            z-index: 1;
         }
 
+            .slide.active {
+                opacity: 1;
+                visibility: visible;
+                z-index: 2;
+            }
+
+        /* ── Bounce en las imágenes ── */
         .slide-bg {
             position: absolute;
             top: -10%;
@@ -245,7 +244,34 @@
             background-size: cover;
             background-position: center;
             z-index: 0;
-            animation: bgBounce 10s ease-in-out infinite alternate;
+            transform: scale(1.2);
+            opacity: 0;
+        }
+
+        .slide.active .slide-bg {
+            animation: bgEntranceBounce 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, bgFloat 10s ease-in-out 1.2s infinite alternate;
+        }
+
+        @keyframes bgEntranceBounce {
+            0% {
+                transform: scale(1.25);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1.06);
+                opacity: 1;
+            }
+        }
+
+        @keyframes bgFloat {
+            0% {
+                transform: scale(1.06) translateY(0) rotate(0deg);
+            }
+
+            100% {
+                transform: scale(1) translateY(-1.5%) rotate(0.5deg);
+            }
         }
 
         #slide-0 .slide-bg {
@@ -264,7 +290,6 @@
             background-image: url('FONDO_4.jpg');
         }
 
-        /* ── Degradado blando para legibilidad ── */
         .text-backdrop {
             position: relative;
             z-index: 10;
@@ -297,15 +322,26 @@
             z-index: 2;
         }
 
+        /* ── Bounce en la aparición de los textos ── */
         @keyframes fuA {
-            from {
+            0% {
                 opacity: 0;
-                transform: translateY(26px);
+                transform: translateY(35px) scale(0.95);
             }
 
-            to {
+            60% {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(-8px) scale(1.02);
+            }
+
+            80% {
+                opacity: 1;
+                transform: translateY(3px) scale(0.99);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
             }
         }
 
@@ -352,6 +388,60 @@
             font-family: var(--font-script);
             color: var(--text-main);
             text-align: center;
+        }
+
+        /* ── MODIFICADO: Brillo Continuo (Sin Typeo) ── */
+        .shine-text {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--green-md) 0%, var(--green-md) 45%, #e6be5c 50%, var(--green-md) 55%, var(--green-md) 100%);
+            background-size: 250% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent; /* Fallback */
+        }
+
+        .slide.active .shine-text {
+            animation: shineRun 3.5s linear infinite;
+        }
+
+        @keyframes shineRun {
+            0% {
+                background-position: 150% center;
+            }
+
+            100% {
+                background-position: -50% center;
+            }
+        }
+
+        /* ── MODIFICADO: Animación Typeo para Fecha, Hora y Dirección ── */
+        .type-reveal {
+            clip-path: inset(0 100% 0 0); /* Mantiene el texto oculto inicialmente */
+            display: inline-block; /* Ayuda a que el clip-path calcule el ancho correctamente */
+        }
+
+        .slide.active .type-reveal {
+            animation: typeClip 1.8s steps(35, end) forwards;
+        }
+
+        /* Retrasos para que el tipeo inicie después del rebote del contenedor */
+        .slide.active .t-delay-1 {
+            animation-delay: 1.2s;
+        }
+
+        .slide.active .t-delay-2 {
+            animation-delay: 0.9s;
+        }
+
+        @keyframes typeClip {
+            0% {
+                clip-path: inset(0 100% 0 0);
+            }
+
+            100% {
+                clip-path: inset(0 0% 0 0);
+            }
         }
 
         .formal-name {
@@ -406,8 +496,9 @@
         }
 
         .d-value {
-            font-size: clamp(0.7rem, 2.8vw, 0.85rem);
-            font-weight: 600;
+            font-size: clamp(0.9rem, 3.5vw, 1.2rem);
+            font-weight: 700;
+            color: var(--green-dk);
             text-align: center;
         }
 
@@ -440,7 +531,9 @@
 
         .loc-address {
             font-style: italic;
-            font-size: clamp(0.8rem, 3.4vw, 0.9rem);
+            font-size: clamp(1.1rem, 4.5vw, 1.3rem);
+            font-weight: 600;
+            color: var(--green-dk);
             line-height: 1.5;
         }
 
@@ -448,6 +541,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            text-align: center;
             gap: 8px;
             padding: 0.8rem 1.5rem;
             border-radius: 50px;
@@ -560,7 +654,10 @@
             <div class="slide active" id="slide-0">
                 <div class="slide-bg"></div><div class="slide-border-1"></div><div class="slide-border-2"></div>
                 <div class="text-backdrop">
-                    <h2 class="script-lg anim a1" style="font-size:clamp(4.5rem, 18vw, 6.5rem); color: var(--green-md);">¡Es un niño!</h2>
+                    <div class="anim a1">
+                        <!-- Modificado: Solo tiene la clase shine-text para el reflejo limpio -->
+                        <h2 class="script-lg shine-text" style="font-size:clamp(4.5rem, 18vw, 6.5rem);">¡Es un niño!</h2>
+                    </div>
                 </div>
             </div>
 
@@ -582,11 +679,15 @@
                     <div class="div-go anim a3"></div>
                     <div class="event-details anim a4">
                         <div class="detail-item">
-                            <span class="d-label">Fecha</span><span class="d-value">Jueves<br>22 de Mayo</span>
+                            <span class="d-label">Fecha</span>
+                            <!-- Modificado: Typeo en Fecha -->
+                            <span class="d-value type-reveal t-delay-1">Jueves<br>22 de Mayo</span>
                         </div>
                         <div class="d-sep"></div>
                         <div class="detail-item">
-                            <span class="d-label">Hora</span><span class="d-value">6:00 p.m.</span>
+                            <span class="d-label">Hora</span>
+                            <!-- Modificado: Typeo en Hora -->
+                            <span class="d-value type-reveal t-delay-1">6:00 p.m.</span>
                         </div>
                     </div>
                 </div>
@@ -599,7 +700,8 @@
                     <div class="div-g anim a1"></div>
                     <div class="location-box anim a2">
                         <p class="loc-label">Dirección</p>
-                        <p class="loc-address">Av. Chelio Luna Pizarro<br>casi esquina Jatatal</p>
+                        <!-- Modificado: Typeo en Dirección -->
+                        <p class="loc-address type-reveal t-delay-2">Av. Chelio Luna Pizarro<br>casi esquina Jatatal</p>
                     </div>
                     <h2 class="script-lg anim a4" style="font-size: clamp(2rem, 8vw, 3rem); margin-top:0.5rem;">Te esperamos</h2>
                     <a class="rsvp-btn anim a4" href="https://wa.me/59175769551?text=Con%20gusto%20iremos" target="_blank">Confirmar Asistencia</a>
@@ -625,10 +727,7 @@
             if (bgMusic) {
                 bgMusic.volume = 0.3;
 
-                // Intenta reproducir de inmediato
                 bgMusic.play().catch(() => {
-                    // Si el navegador lo bloquea (por políticas de autoplay),
-                    // espera el primer toque en pantalla para reproducirlo.
                     const startAudio = () => {
                         bgMusic.play();
                         document.removeEventListener('click', startAudio);
@@ -676,10 +775,9 @@
             }, 1500);
         }
 
-        /* ── SLIDER (Tiempos dinámicos) ── */
+        /* ── SLIDER (Tiempos ajustados para dar tiempo de lectura al Typeo) ── */
         const TOTAL = 4;
-        // Array de tiempos: 2s, 3s, 5s, 5s
-        const DURATIONS = [2000, 3000, 5000, 5000];
+        const DURATIONS = [3000, 3000, 5500, 6000]; // Tiempos ampliados en los slides 2 y 3
 
         let current = 0, autoTimer = null, startX = 0, dragging = false;
         const sliderEl = document.getElementById('slider'), dotsEl = document.querySelectorAll('.dot'), slidesEl = document.querySelectorAll('.slide'), bar = document.getElementById('progressBar');
@@ -689,7 +787,6 @@
             if (idx < 0 || idx >= TOTAL) return;
             slidesEl[current].classList.remove('active');
             current = idx;
-            sliderEl.style.transform = `translateX(-${current * 100}vw)`;
             slidesEl[current].classList.add('active');
             dotsEl.forEach((d, i) => d.classList.toggle('active', i === current));
             btnPrev.classList.toggle('hide', current === 0);
@@ -698,7 +795,7 @@
         }
 
         function resetTimer() {
-            clearTimeout(autoTimer); // Usamos clearTimeout para tiempos variables
+            clearTimeout(autoTimer);
             bar.style.transition = 'none'; bar.style.width = '0%';
 
             if (current === TOTAL - 1) {
