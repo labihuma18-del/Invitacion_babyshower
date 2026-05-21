@@ -15,7 +15,7 @@
         }
 
         :root {
-            /* ── Palette ── */
+         
             --bg-start: #fdfaf3;
             --text-main: #1b3826;
             --text-sub: #2a5239;
@@ -538,7 +538,6 @@
             line-height: 1.5;
         }
 
-        /* ── Botón de Google Maps ── */
         .maps-btn {
             display: inline-flex;
             align-items: center;
@@ -743,7 +742,7 @@
                         <p class="loc-label">Dirección</p>
                         <p class="loc-address type-reveal t-delay-2">Av. Chelio Luna Pizarro<br>casi esquina Jatatal</p>
 
-                        <!-- BOTÓN DE GOOGLE MAPS AÑADIDO AQUÍ -->
+                        
                         <a class="maps-btn" href="https://www.google.com/maps?q=-11.0144546,-68.7526025&z=17&hl=es" target="_blank">
                             <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
@@ -772,7 +771,6 @@
 
     <script>
 
-        // 1. Al cargar la página, solo ajustamos el volumen del audio.
         document.addEventListener("DOMContentLoaded", () => {
             const bgMusic = document.getElementById('bgMusic');
             if (bgMusic) {
@@ -780,7 +778,7 @@
             }
         });
 
-        // 2. Animación de los pétalos
+      
         (function () {
             const container = document.getElementById('petalsContainer');
             const palette = [
@@ -804,9 +802,9 @@
             }
         })();
 
-        /* ── ABRIR SOBRE Y REPRODUCIR AUDIO ── */
+       
         function openEnvelope() {
-            // Se le da "Play" a la música en el momento exacto del clic
+
             const bgMusic = document.getElementById('bgMusic');
             if (bgMusic) {
                 bgMusic.play().catch(error => console.log("Error de audio:", error));
@@ -822,7 +820,7 @@
             }, 1500);
         }
 
-        // Lógica de Slider y transiciones
+     
         const TOTAL = 4;
         const DURATIONS = [5000, 6000, 10000, 10000];
 
